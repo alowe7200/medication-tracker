@@ -23,6 +23,11 @@ export default function App() {
   const [meds, setMeds] = useLocalStorage('med_tracker_meds', []);
   const [habits, setHabits] = useLocalStorage('med_tracker_habits', []);
   const [daily, setDaily] = useLocalStorage('med_tracker_daily', {});
+  const [symptomOptions, setSymptomOptions] = useLocalStorage('symptomOptions', {
+    digestion: ['Bloating'],
+    lungs: ['Shortness of breath'],
+  });
+  const [symptomsByDate, setSymptomsByDate] = useLocalStorage('symptomsByDate', {});
   const [showAddForm, setShowAddForm] = useState(false);
   const [activeTab, setActiveTab] = useState('ratings');
 
@@ -96,6 +101,40 @@ export default function App() {
     });
   };
 
+  // ── Symptom handlers ──────────────────────────────────────────
+  const handleAddSymptomOption = (category, symptom) => {
+    setSymptomOptions((prev) => ({
+      ...prev,
+      [category]: [...(prev[category] ?? []), symptom],
+    }));
+  };
+
+  const handleRemoveSymptomOption = (category, symptom) => {
+    setSymptomOptions((prev) => ({
+      ...prev,
+      [category]: (prev[category] ?? []).filter((s) => s !== symptom),
+    }));
+    setSymptomsByDate((prev) => {
+      const todaySel = prev[today] ?? {};
+      const catSel = todaySel[category] ?? [];
+      return {
+        ...prev,
+        [today]: { ...todaySel, [category]: catSel.filter((s) => s !== symptom) },
+      };
+    });
+  };
+
+  const handleSymptomToggle = (category, symptom) => {
+    setSymptomsByDate((prev) => {
+      const todaySel = prev[today] ?? {};
+      const catSel = todaySel[category] ?? [];
+      const next = catSel.includes(symptom)
+        ? catSel.filter((s) => s !== symptom)
+        : [...catSel, symptom];
+      return { ...prev, [today]: { ...todaySel, [category]: next } };
+    });
+  };
+
   // ── Rating handlers ───────────────────────────────────────────
   const handleOverallFeeling = (value) => {
     setDaily((prev) => {
@@ -146,6 +185,11 @@ export default function App() {
           ratings={daily[today]?.ratings ?? {}}
           onOverallChange={handleOverallFeeling}
           onCategoryChange={handleCategoryRating}
+          symptomOptions={symptomOptions}
+          selectedSymptoms={symptomsByDate[today] ?? {}}
+          onAddSymptomOption={handleAddSymptomOption}
+          onRemoveSymptomOption={handleRemoveSymptomOption}
+          onSymptomToggle={handleSymptomToggle}
         />
       )}
 

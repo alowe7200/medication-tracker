@@ -25,8 +25,9 @@ function getLast14Dates() {
 
 /** Build one metrics entry per day from the raw daily localStorage object. */
 function buildMetricsData(daily) {
+  const safeDaily = daily ?? {};
   return getLast14Dates().map((date) => {
-    const record = daily[date] ?? {};
+    const record = safeDaily[date] ?? {};
 
     // habitsScore: count of truthy entries (deleted keys = not done)
     const habitsScore = Object.values(record.habitsDone ?? {}).filter(Boolean).length;
@@ -154,11 +155,11 @@ export default function MetricsView({ daily }) {
       />
 
       <MetricsChart
-        title="Category score (0-12)"
+        title="Category score (0-9)"
         subtitle="Sum of rated categories only. Gaps mean no categories rated."
         data={data}
         dataKey="categoryScore"
-        yDomain={[0, 12]}
+        yDomain={[0, 9]}
         strokeColor="#1a73e8"
       />
 

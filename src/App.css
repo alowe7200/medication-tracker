@@ -32,14 +32,40 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: var(--app-bg);
-  color: var(--gray-800);
+  background: #F6F4FF;
+  color: #2E2A4A;
   min-height: 100dvh;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
 /* ── Layout ───────────────────────────────────────────────────── */
+.section-card {
+  border-radius: 24px;
+  padding: 44px;
+  box-shadow: 0 12px 32px rgba(109, 91, 208, 0.08);
+}
+
+/* ── Emoji states ─────────────────────────────────────────────── */
+.emoji {
+  opacity: 0.5;
+  transition: all 0.25s ease;
+}
+
+.emoji:hover {
+  opacity: 0.8;
+  transform: scale(1.08);
+}
+
+.emoji.selected {
+  opacity: 1;
+  transform: scale(1.18);
+  background: #E9E5FF;
+  border-radius: 20px;
+  padding: 12px;
+}
+
+
 .app {
   max-width: 480px;
   margin: 0 auto;
@@ -756,6 +782,108 @@ textarea:focus {
   font-size: 0.9rem;
   color: var(--gray-600);
   font-weight: 500;
+}
+
+/* ── Symptom Select ───────────────────────────────────────────── */
+.symptom-select {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--gray-100);
+}
+
+.symptom-select__label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  margin-bottom: 0.4rem;
+}
+
+.symptom-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.symptom-pill-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.symptom-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.65rem;
+  font-size: 0.88rem;
+  font-family: inherit;
+  font-weight: 500;
+  background: var(--gray-100);
+  color: var(--gray-600);
+  border: 2px solid var(--gray-200);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.symptom-pill--selected {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+.symptom-pill:active {
+  opacity: 0.75;
+}
+
+.symptom-pill__remove {
+  background: transparent;
+  border: none;
+  color: var(--gray-400);
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.2rem 0.15rem;
+  border-radius: 4px;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.1s;
+}
+
+.symptom-pill__remove:active {
+  color: var(--red);
+}
+
+.symptom-add {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.symptom-add input {
+  flex: 1;
+  border: 2px solid var(--gray-200);
+  border-radius: 8px;
+  padding: 0.45rem 0.65rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: var(--gray-800);
+  background: var(--gray-50);
+  transition: border-color 0.15s;
+}
+
+.symptom-add input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: #fff;
+}
+
+.symptom-add .btn-add {
+  padding: 0.45rem 0.8rem;
+  font-size: 1.1rem;
 }
 
 /* ── Tab bar ──────────────────────────────────────────────────── */
